@@ -51,7 +51,7 @@ class MemberServiceMockTest {
                 .thenReturn(null); // 이메일 중복이 없다고 가정
 
         Member savedMember = Member.builder()
-                .id(1) // id는 1로 설정 (자동 생성된 값처럼)
+                .id(1L) // 수동으로 설정해야하는데 ...
                 .name("test1")
                 .email("test1@email.com")
                 .password("password123")
