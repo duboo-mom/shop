@@ -6,6 +6,8 @@ import com.shop.shop.member.entity.Member;
 import com.shop.shop.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,9 @@ public class MemberService {
         if (findMember != null) {
             throw new IllegalStateException("사용중인 이메일 입니다.");
         }
+
+//        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//        String password = passwordEncoder.encode(memberFormDto.getPassword());
 
         Member member = Member.builder()
                 .name(memberFormDto.getName())
