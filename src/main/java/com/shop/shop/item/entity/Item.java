@@ -1,6 +1,6 @@
 package com.shop.shop.item.entity;
 
-import com.shop.shop.constant.ItemSellStatus;
+import com.shop.shop.item.constant.ItemSellStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

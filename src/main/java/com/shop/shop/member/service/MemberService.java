@@ -1,28 +1,45 @@
 package com.shop.shop.member.service;
 
+import com.shop.shop.member.constant.Role;
+import com.shop.shop.member.dto.MemberFormDto;
 import com.shop.shop.member.entity.Member;
 import com.shop.shop.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
-public Member saveMember(Member member) {
-        validationDuplicateMember(member);
+    @Transactional
+    public Member createMember(MemberFormDto memberFormDto) {
+
+        Member findMember = memberRepository.findByEmail(memberFormDto.getEmail());
+
+        if (findMember != null) {
+            throw new IllegalStateException("사용중인 이메일 입니다.");
+        }
+
+        Member member = Member.builder()
+                .name(memberFormDto.getName())
+                .email(memberFormDto.getEmail())
+                .password(memberFormDto.getPassword())
+                .address(memberFormDto.getAddress())
+                .role(Role.USER)
+                .build();
+
         return memberRepository.save(member);
     }
 
-    public void validationDuplicateMember(Member member) {
-        Member findMember = memberRepository.findByEmail(member.getEmail());
-        if (findMember != null) {
-            throw new IllegalStateException("이미 가입된 회원입니다.");
-        }
 
-    }
+
+
+
+
+
+
 }
