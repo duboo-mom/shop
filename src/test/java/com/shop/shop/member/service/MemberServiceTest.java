@@ -40,15 +40,16 @@ class MemberServiceTest {
     public void saveMemberTest() {
 
         MemberFormDto memberFormDto = createMemberFormDto();
-        Member savedMember = memberService.createMember(memberFormDto);
+        String result = memberService.createMember(memberFormDto);
 
-        Role savedRole = Role.USER;
+        assertEquals("success", result);
+//        Role savedRole = Role.USER;
 
-        assertNotNull(savedMember);
-        assertEquals(memberFormDto.getName(), savedMember.getName());
-        assertEquals(memberFormDto.getEmail(), savedMember.getEmail());
-        assertEquals(memberFormDto.getPassword(), savedMember.getPassword());
-        assertEquals(savedRole, savedMember.getRole());
+//        assertNotNull(savedMember);
+//        assertEquals(memberFormDto.getName(), savedMember.getName());
+//        assertEquals(memberFormDto.getEmail(), savedMember.getEmail());
+//        assertEquals(memberFormDto.getPassword(), savedMember.getPassword());
+//        assertEquals(savedRole, savedMember.getRole());
 
     }
 

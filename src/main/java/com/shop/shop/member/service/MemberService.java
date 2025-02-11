@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
@@ -24,11 +26,8 @@ public class MemberService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Member member = memberRepository.findByEmail(email);
-
-        if (member == null) {
-            throw new UsernameNotFoundException(email);
-        }
+        Member member = memberRepository.findByEmail(email).orElseThrow(()
+                -> new UsernameNotFoundException("회원을 찾을 수 없습니다."));
 
         return User.builder()
                 .username(member.getName())
@@ -37,13 +36,12 @@ public class MemberService implements UserDetailsService {
                 .build();
     }
 
-
     @Transactional
-    public Member createMember(MemberFormDto memberFormDto) {
+    public String createMember(MemberFormDto memberFormDto) {
 
-        Member findMember = memberRepository.findByEmail(memberFormDto.getEmail());
+        Optional<Member> findMember = memberRepository.findByEmail(memberFormDto.getEmail());
 
-        if (findMember != null) {
+        if (findMember.isPresent()) {
             throw new IllegalStateException("사용중인 이메일 입니다.");
         }
 
@@ -57,7 +55,9 @@ public class MemberService implements UserDetailsService {
                 .role(Role.USER)
                 .build();
 
-        return memberRepository.save(member);
+        memberRepository.save(member);
+
+        return "success";
     }
 
 }
